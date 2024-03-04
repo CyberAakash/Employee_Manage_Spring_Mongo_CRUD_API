@@ -12,5 +12,9 @@ public interface EmployeeService {
     EmployeeResponseDto getEmployeeById(Integer id);
     void deleteEmployee(Integer id);
     EmployeeResponseDto updateMail(Integer id, String empMail);
+    long getTotalDocumentCount();
+    String convertObjectToJson(Object object) throws Exception;
+    <T> T convertJsonToObject(String json, Class<T> valueType) throws Exception;
+
 
 }

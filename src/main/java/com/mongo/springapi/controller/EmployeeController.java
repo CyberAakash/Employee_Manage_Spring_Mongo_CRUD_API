@@ -1,6 +1,6 @@
 package com.mongo.springapi.controller;
 
-import com.mongo.springapi.dto.EmployeeDto;
+import com.mongo.springapi.collection.Employee;
 import com.mongo.springapi.dto.EmployeeRequestDto;
 import com.mongo.springapi.dto.EmployeeResponseDto;
 import com.mongo.springapi.service.EmployeeService;
@@ -50,6 +50,53 @@ public class EmployeeController {
     public ResponseEntity<EmployeeResponseDto> updateEmployeeMailByID(@PathVariable Integer id, @RequestBody Map<String, String> request) {
         String empMail = request.get("empMail");
         return new ResponseEntity<>(employeeService.updateMail(id, empMail), HttpStatus.OK);
+    }
+
+    //    Total Document Count
+    @GetMapping("/tdc")
+    public ResponseEntity<Long> getTotalDocumentCount() {
+        long count = employeeService.getTotalDocumentCount();
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+
+    @GetMapping("/map-object/{id}")
+    public ResponseEntity<String> mapObjectById(@PathVariable Integer id) {
+        try {
+            // Fetch employee from database
+            EmployeeResponseDto employee = employeeService.getEmployeeById(id); // Replace employeeId with actual ID
+            if (employee != null) {
+                String json = employeeService.convertObjectToJson(employee);
+                return new ResponseEntity<>(json, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Employee not found", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            // Handle any exception that might occur during JSON conversion or fetching from database
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/map-object")
+    public ResponseEntity<String> mapObject(EmployeeRequestDto employeeRequestDto) {
+        try {
+            // Fetch employee from database
+//            EmployeeResponseDto employee = employeeService.getEmployeeById(id); // Replace employeeId with actual ID
+            if (employeeRequestDto != null) {
+                String json = employeeService.convertObjectToJson(employeeRequestDto);
+                return new ResponseEntity<>(json, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Employee not found", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            // Handle any exception that might occur during JSON conversion or fetching from database
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/map-json")
+    public ResponseEntity<Employee> mapJson(@RequestBody EmployeeRequestDto employeeRequestDto) throws Exception {
+        Employee employee = employeeService.convertJsonToObject(employeeService.convertObjectToJson(employeeRequestDto), Employee.class);
+        return new ResponseEntity<>(employee, HttpStatus.OK);
     }
 
 }
