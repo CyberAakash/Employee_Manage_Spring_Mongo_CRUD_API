@@ -99,4 +99,10 @@ public class EmployeeController {
         return new ResponseEntity<>(employee, HttpStatus.OK);
     }
 
+    @GetMapping("/aggregate/{fieldName}")
+    public ResponseEntity<List<Object>> getFieldValues(@PathVariable String fieldName) {
+        List<Object> fieldValues = employeeService.getFieldValues(fieldName);
+        return new ResponseEntity<>(fieldValues, HttpStatus.OK);
+    }
+
 }

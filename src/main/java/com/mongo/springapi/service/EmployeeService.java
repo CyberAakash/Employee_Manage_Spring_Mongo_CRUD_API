@@ -15,6 +15,6 @@ public interface EmployeeService {
     long getTotalDocumentCount();
     String convertObjectToJson(Object object) throws Exception;
     <T> T convertJsonToObject(String json, Class<T> valueType) throws Exception;
-
+    List<Object> getFieldValues(String fieldName);
 
 }
