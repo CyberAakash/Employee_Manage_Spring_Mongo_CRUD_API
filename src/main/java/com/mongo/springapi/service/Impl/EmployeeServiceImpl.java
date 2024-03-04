@@ -2,6 +2,8 @@ package com.mongo.springapi.service.Impl;
 
 import com.mongo.springapi.collection.Employee;
 import com.mongo.springapi.dto.EmployeeDto;
+import com.mongo.springapi.dto.EmployeeRequestDto;
+import com.mongo.springapi.dto.EmployeeResponseDto;
 import com.mongo.springapi.mapper.EmployeeMapper;
 import com.mongo.springapi.repository.EmployeeRepository;
 import com.mongo.springapi.service.EmployeeService;
@@ -23,24 +25,24 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeDto createEmployee(EmployeeDto employeeDto) {
+    public EmployeeResponseDto createEmployee(EmployeeRequestDto employeeDto) {
         Employee employee = EmployeeMapper.mapToEmployee(employeeDto);
         Employee savedEmployee = employeeRepository.save(employee);
-        return EmployeeMapper.mapToEmployeeDto(savedEmployee);
+        return EmployeeMapper.mapToEmployeeResponseDto(savedEmployee);
     }
 
     @Override
-    public List<EmployeeDto> getEmployees() {
+    public List<EmployeeResponseDto> getEmployees() {
         List<Employee> employees = employeeRepository.findAll();
-        return employees.stream().map((employee) -> EmployeeMapper.mapToEmployeeDto(employee)).collect(Collectors.toList());
+        return employees.stream().map((employee) -> EmployeeMapper.mapToEmployeeResponseDto(employee)).collect(Collectors.toList());
     }
 
     @Override
-    public EmployeeDto getEmployeeById(Integer id) {
+    public EmployeeResponseDto getEmployeeById(Integer id) {
         Employee employee = employeeRepository
                 .findByCustomId(id);
 //                .orElseThrow(() -> new RuntimeException("Employee does not exist!"));
-        return EmployeeMapper.mapToEmployeeDto(employee);
+        return EmployeeMapper.mapToEmployeeResponseDto(employee);
 
     }
 
@@ -52,10 +54,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeDto updateMail(Integer id, String empMail) {
+    public EmployeeResponseDto updateMail(Integer id, String empMail) {
         Employee employee = employeeRepository.findByCustomId(id);
         employee.setEmpMail(empMail);
         Employee savedEmployee = employeeRepository.save(employee);
-        return  EmployeeMapper.mapToEmployeeDto(savedEmployee);
+        return  EmployeeMapper.mapToEmployeeResponseDto(savedEmployee);
     }
 }

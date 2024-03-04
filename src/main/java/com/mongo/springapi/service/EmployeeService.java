@@ -1,14 +1,16 @@
 package com.mongo.springapi.service;
 
 import com.mongo.springapi.dto.EmployeeDto;
+import com.mongo.springapi.dto.EmployeeRequestDto;
+import com.mongo.springapi.dto.EmployeeResponseDto;
 
 import java.util.List;
 
 public interface EmployeeService {
-    EmployeeDto createEmployee(EmployeeDto employeeDto);
-    List<EmployeeDto> getEmployees();
-    EmployeeDto getEmployeeById(Integer id);
+    EmployeeResponseDto createEmployee(EmployeeRequestDto employeeDto);
+    List<EmployeeResponseDto> getEmployees();
+    EmployeeResponseDto getEmployeeById(Integer id);
     void deleteEmployee(Integer id);
-    EmployeeDto updateMail(Integer id, String empMail);
+    EmployeeResponseDto updateMail(Integer id, String empMail);
 
 }

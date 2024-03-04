@@ -1,6 +1,8 @@
 package com.mongo.springapi.controller;
 
 import com.mongo.springapi.dto.EmployeeDto;
+import com.mongo.springapi.dto.EmployeeRequestDto;
+import com.mongo.springapi.dto.EmployeeResponseDto;
 import com.mongo.springapi.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,19 +24,19 @@ public class EmployeeController {
     }
 
     @PostMapping("/addEmp")
-    public ResponseEntity<EmployeeDto> createEmployee(@RequestBody EmployeeDto employeeDto) {
+    public ResponseEntity<EmployeeResponseDto> createEmployee(@RequestBody EmployeeRequestDto employeeDto) {
         return new ResponseEntity<>(employeeService.createEmployee(employeeDto),
                 HttpStatus.CREATED);
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<EmployeeDto>> getAllEmployees() {
+    public ResponseEntity<List<EmployeeResponseDto>> getAllEmployees() {
         return new ResponseEntity<>(employeeService.getEmployees(),
                 HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EmployeeDto> getEmployeeByID(@PathVariable Integer id) {
+    public ResponseEntity<EmployeeResponseDto> getEmployeeByID(@PathVariable Integer id) {
         return new ResponseEntity<>(employeeService.getEmployeeById(id), HttpStatus.OK);
     }
 
@@ -45,7 +47,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}/updateMail")
-    public ResponseEntity<EmployeeDto> updateEmployeeMailByID(@PathVariable Integer id, @RequestBody Map<String, String> request) {
+    public ResponseEntity<EmployeeResponseDto> updateEmployeeMailByID(@PathVariable Integer id, @RequestBody Map<String, String> request) {
         String empMail = request.get("empMail");
         return new ResponseEntity<>(employeeService.updateMail(id, empMail), HttpStatus.OK);
     }
